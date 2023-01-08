@@ -26,8 +26,7 @@ class YoutubePlayerEventHandler {
   final YoutubePlayerController controller;
 
   /// The [YoutubeVideoState] stream controller.
-  final StreamController<YoutubeVideoState> videoStateController =
-      StreamController.broadcast();
+  final StreamController<YoutubeVideoState> videoStateController = StreamController.broadcast();
 
   final Completer<void> _readyCompleter = Completer();
   late final Map<String, ValueChanged<Object>> _events;
@@ -127,7 +126,8 @@ class YoutubePlayerEventHandler {
 
   /// This event fires when the player receives information about video states.
   void onVideoState(Object data) {
-    videoStateController.add(YoutubeVideoState.fromJson(data.toString()));
+    final videoState = YoutubeVideoState.fromJson(data.toString());
+    controller.update(currentDuration: videoState.position);
   }
 
   /// This event fires when the auto playback is blocked by the browser.

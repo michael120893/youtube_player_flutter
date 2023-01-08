@@ -21,6 +21,10 @@
         pointer-events: inherit;
       }
 
+      #player {
+        pointer-events: <<disablePlayerGestures>>;
+      }
+
       .embed-container iframe,
       .embed-container object,
       .embed-container embed {
@@ -37,7 +41,7 @@
 
   <body>
     <div class="embed-container">
-      <div id="player"></div>
+      <div id="player" style="background: #FFFFFF; opacity: 0;"></div>
     </div>
 
     <script>
@@ -64,6 +68,7 @@
               clearTimeout(timerId);
               sendMessage('StateChange', event.data);
               if (event.data == 1) {
+                document.getElementById("player").style.opacity = "1";
                 timerId = setInterval(function () {
                   var state = {
                     'currentTime': player.getCurrentTime(),

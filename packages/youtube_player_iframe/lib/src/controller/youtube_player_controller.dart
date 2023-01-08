@@ -269,6 +269,7 @@ class YoutubePlayerController implements YoutubePlayerIFrameAPI {
 
     await webViewController.loadHtmlString(
       playerHtml
+          .replaceFirst( '<<disablePlayerGestures>>', params.showControls ? 'all' : 'none')
           .replaceFirst('<<pointerEvents>>', params.pointerEvents.name)
           .replaceFirst('<<playerVars>>', params.toJson())
           .replaceFirst('<<platform>>', platform)
@@ -335,6 +336,7 @@ class YoutubePlayerController implements YoutubePlayerIFrameAPI {
     String? playbackQuality,
     YoutubeError? error,
     YoutubeMetaData? metaData,
+    Duration? currentDuration,
   }) {
     final updatedValue = YoutubePlayerValue(
       fullScreenOption: fullScreenOption ?? value.fullScreenOption,
@@ -343,9 +345,12 @@ class YoutubePlayerController implements YoutubePlayerIFrameAPI {
       playbackQuality: playbackQuality ?? value.playbackQuality,
       error: error ?? value.error,
       metaData: metaData ?? value.metaData,
+      currentDuration: currentDuration ?? value.currentDuration,
     );
 
-    _valueController.add(updatedValue);
+    if (!_valueController.isClosed) {
+      _valueController.add(updatedValue);
+    }
   }
 
   /// Listen to updates in [YoutubePlayerController].

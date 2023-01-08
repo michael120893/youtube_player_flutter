@@ -17,6 +17,7 @@ class YoutubePlayerValue {
     this.playbackQuality,
     this.error = YoutubeError.none,
     this.metaData = const YoutubeMetaData(),
+    this.currentDuration = const Duration(seconds: 0),
   });
 
   /// The initial fullscreen option.
@@ -41,6 +42,8 @@ class YoutubePlayerValue {
 
   /// Returns meta data of the currently loaded/cued video.
   final YoutubeMetaData metaData;
+
+  final Duration currentDuration;
 
   @override
   String toString() {
